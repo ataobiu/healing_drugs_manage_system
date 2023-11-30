@@ -25,9 +25,14 @@ request.interceptors.response.use(
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
         }
+
         return res;
     },
     error => {
+        if (error.response && error.response.status === 401) {
+            // 重定向到登录页面
+            window.location.href = '/login';
+        }
         return Promise.reject(error)
     }
 )
